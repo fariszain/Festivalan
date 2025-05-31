@@ -37,3 +37,7 @@ Route::get('/register', function () {
 Route::get('/ubahprofile', function () {
     return view('laravel_blade_views.ubahprofile');
 })->name('ubahprofile');
+
+Route::get('/auth', function () {
+    return view('laravel_blade_views.auth');
+})->name('auth');
