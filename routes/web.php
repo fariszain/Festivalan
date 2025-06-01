@@ -7,37 +7,45 @@ Route::get('/', function () {
 });
 
 Route::get('/about', function () {
-    return view('laravel_blade_views.about');
+    return view('about');
 })->name('about');
 
 Route::get('/Beranda', function () {
-    return view('laravel_blade_views.Beranda');
+    return view('Beranda');
 })->name('Beranda');
 
 Route::get('/contact', function () {
-    return view('laravel_blade_views.contact');
+    return view('contact');
 })->name('contact');
 
 Route::get('/gallery', function () {
-    return view('laravel_blade_views.gallery');
+    return view('gallery');
 })->name('gallery');
 
 Route::get('/Profile', function () {
-    return view('laravel_blade_views.Profile');
+    return view('Profile');
 })->name('Profile');
 
 Route::get('/services', function () {
-    return view('laravel_blade_views.services');
+    return view('services');
 })->name('services');
 
 Route::get('/register', function () {
-    return view('laravel_blade_views.register');
+    return view('register');
 })->name('register');
 
 Route::get('/ubahprofile', function () {
-    return view('laravel_blade_views.ubahprofile');
+    return view('ubahprofile');
 })->name('ubahprofile');
 
 Route::get('/auth', function () {
-    return view('laravel_blade_views.auth');
+    return view('auth');
 })->name('auth');
+
+Route::get('/registerevent', function () {
+    return view('registerevent');
+})->name('registerevent');
+
+Route::get('/detail', function () {
+    return view('detail');
+})->name('detail');
