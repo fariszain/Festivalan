@@ -3,12 +3,12 @@
 @section('title', 'Festivalan - Platform Tiket & Manajemen Event')
 
 @section('header')
-{{-- Header untuk Beranda tetap sama seperti sebelumnya --}}
-<header class="fixed top-0 w-full z-30">
+{{-- Header untuk Beranda --}}
+<header class="fixed top-0 w-full z-30"> {{-- z-30 agar di bawah modal (biasanya z-50) --}}
     <nav class="navbar bg-transparent border-transparent transition-colors duration-300">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a class="flex items-center space-x-3 rtl:space-x-reverse" href="{{ route('Beranda')}}">
-                <img alt="Logo" class="h-8 sm:h-9" src="{{ asset('Gambar_WhatsApp_2025-04-14_pukul_19.16.03_c2ef5862-removebg-preview.png') }}"/>
+                <img alt="Logo Festivalan" class="h-8 sm:h-9" src="{{ asset('Gambar_WhatsApp_2025-04-14_pukul_19.16.03_c2ef5862-removebg-preview.png') }}"/>
                 <span class="self-center text-2xl font-semibold whitespace-nowrap text-on-transparent">Festivalan</span>
             </a>
             <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse relative">
@@ -87,15 +87,25 @@
 
 {{-- Galeri Event (Marquee) --}}
 <section class="overflow-hidden whitespace-nowrap bg-white dark:bg-slate-800 py-12" id="event-gallery">
-    {{-- ... (Konten Galeri Event seperti sebelumnya) ... --}}
     <h2 class="text-3xl font-bold text-gray-900 dark:text-white text-center mb-10">Galeri Event Terkini</h2>
     <div class="w-full inline-block animate-marquee">
-        @php $galleryImages = ['1257w-Ghk8lx6yUCQ.webp', '4535650015b7608dce2f8e36a42785eb.jpg', '4c290251b6a184c00609d07e8f40fc9b.jpg', '1131w-96LTeHAy_0c.webp', '1131w-o5eGmJ05izs.webp', 'event-night-flyer-template-b354cd8cd9d0513d7b0dc7f8df2202d2_screen.jpg', '6cdba24179ddf294aa2d59613a873ad6.jpg']; @endphp
-        @foreach ($galleryImages as $key => $image)
-            <img class="inline-block mx-3 w-60 h-96 object-cover rounded-xl shadow-lg card-hover" src="{{ asset($image) }}" alt="Galeri Event {{ $key + 1 }}">
+        @php
+            $galleryImages = [
+                ['file' => '1257w-Ghk8lx6yUCQ.webp', 'alt' => 'Suasana Konser Malam Hari'],
+                ['file' => '4535650015b7608dce2f8e36a42785eb.jpg', 'alt' => 'Festival Musik Outdoor'],
+                ['file' => '4c290251b6a184c00609d07e8f40fc9b.jpg', 'alt' => 'Panggung Megah dengan Lampu Sorot'],
+                ['file' => '1131w-96LTeHAy_0c.webp', 'alt' => 'Penonton Menikmati Konser'],
+                ['file' => '1131w-o5eGmJ05izs.webp', 'alt' => 'Pertunjukan Spektakuler di Panggung'],
+                ['file' => 'event-night-flyer-template-b354cd8cd9d0513d7b0dc7f8df2202d2_screen.jpg', 'alt' => 'Desain Flyer Event Malam'],
+                ['file' => '6cdba24179ddf294aa2d59613a873ad6.jpg', 'alt' => 'Keramaian Pengunjung Festival']
+            ];
+        @endphp
+        @foreach ($galleryImages as $image)
+            <img class="inline-block mx-3 w-60 h-96 object-cover rounded-xl shadow-lg card-hover" src="{{ asset($image['file']) }}" alt="{{ $image['alt'] }}">
         @endforeach
-        @foreach ($galleryImages as $key => $image)
-            <img class="inline-block mx-3 w-60 h-96 object-cover rounded-xl shadow-lg card-hover" src="{{ asset($image) }}" alt="Galeri Event {{ $key + 1 }} (Duplikat)">
+        {{-- Duplikasi untuk marquee mulus --}}
+        @foreach ($galleryImages as $image)
+            <img class="inline-block mx-3 w-60 h-96 object-cover rounded-xl shadow-lg card-hover" src="{{ asset($image['file']) }}" alt="{{ $image['alt'] }} (Duplikat)">
         @endforeach
     </div>
 </section>
@@ -117,7 +127,6 @@
                                 data-event-name="PDH DAY" data-event-id="pdh-day">
                             <i class="fas fa-edit mr-2"></i>Daftar
                         </button>
-                        {{-- Tombol Detail diubah untuk memicu modal detail --}}
                         <button type="button" class="open-event-detail-modal-trigger flex-1 text-center bg-transparent hover:bg-blue-50 dark:hover:bg-slate-700 text-blue-600 dark:text-blue-400 border-2 border-blue-500 dark:border-blue-500 px-4 py-2.5 rounded-lg text-sm font-semibold transition-colors"
                                 data-event-id="pdh-day">
                             <i class="fas fa-info-circle mr-2"></i>Detail
@@ -169,48 +178,61 @@
     </div>
 </section>
 
-{{-- ... (Section "Kenapa Pilih Festivalan" - sama seperti sebelumnya) ... --}}
+{{-- Section "Kenapa Pilih Festivalan" --}}
 <section class="bg-white dark:bg-slate-800 py-16">
-    {{-- ... Konten section ... --}}
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white text-center mb-12">✨ Kenapa Pilih Festivalan?</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+            <div class="text-center p-6 bg-gray-50 dark:bg-slate-700/50 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+                <div class="text-5xl text-blue-600 dark:text-blue-400 mb-5"><i class="fas fa-hand-holding-usd"></i></div>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">🚫 Tanpa Potongan Biaya</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Semua event bisa diunggah dan dikelola tanpa komisi. Cocok untuk BEM, UKM, hingga dosen yang mengadakan acara.</p>
+            </div>
+            <div class="text-center p-6 bg-gray-50 dark:bg-slate-700/50 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+                <div class="text-5xl text-blue-600 dark:text-blue-400 mb-5"><i class="fas fa-chart-line"></i></div>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">📊 Data Real-time</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Lihat statistik peserta, jumlah pendaftar, dan status kehadiran secara langsung & akurat. Laporan siap pakai!</p>
+            </div>
+            <div class="text-center p-6 bg-gray-50 dark:bg-slate-700/50 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+                 <div class="text-5xl text-blue-600 dark:text-blue-400 mb-5"><i class="fas fa-headset"></i></div>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">📞 Dukungan Penuh</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Tim kami siap membantu kapan saja untuk memastikan event kamu berjalan lancar dan sukses.</p>
+            </div>
+        </div>
+    </div>
 </section>
 
-{{-- MODAL DETAIL EVENT (BARU) --}}
+{{-- MODAL DETAIL EVENT (Ditempatkan di Beranda.blade.php) --}}
 <div id="eventDetailModal" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm h-full w-full hidden items-center justify-center z-50 p-4 animate-fade-in" style="animation-duration: 0.2s;">
-    <div id="eventDetailModalContentWrapper" class="relative mx-auto w-full max-w-3xl xl:max-w-5xl h-[90vh] sm:h-auto sm:max-h-[90vh] flex flex-col animate-slide-up" style="animation-duration: 0.3s;">
+    <div id="eventDetailModalContentWrapper" class="relative mx-auto w-full max-w-3xl xl:max-w-5xl h-auto max-h-[90vh] flex flex-col animate-slide-up bg-white dark:bg-slate-800 shadow-2xl rounded-xl" style="animation-duration: 0.3s;">
         {{-- Tombol Close di Pojok Kanan Atas Modal --}}
-        <button id="closeEventDetailModalTop" aria-label="Tutup modal detail" class="absolute -top-3 -right-3 sm:top-3 sm:right-3 z-10 bg-white dark:bg-slate-700 text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white rounded-full p-2 shadow-lg">
-            <i class="fas fa-times fa-lg"></i>
-        </button>
+        <div class="flex justify-between items-center p-4 sm:p-6 border-b border-gray-200 dark:border-slate-700">
+            <h2 id="modalDetailEventTitleHeader" class="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white">Detail Event</h2>
+            <button id="closeEventDetailModalTop" aria-label="Tutup modal detail" class="text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100 transition-colors p-1 rounded-full hover:bg-gray-100 dark:hover:bg-slate-700">
+                <i class="fas fa-times fa-lg"></i>
+            </button>
+        </div>
 
-        <article class="flex-grow bg-white dark:bg-slate-800 shadow-2xl rounded-xl overflow-hidden flex flex-col">
-            {{-- Konten di dalam modal akan diisi oleh JavaScript --}}
-            {{-- Struktur dasar yang akan diisi: --}}
-            <div class="lg:flex flex-grow min-h-0"> {{-- min-h-0 penting untuk scroll di flex child --}}
+        {{-- Konten Scrollable --}}
+        <div class="flex-grow overflow-y-auto">
+            <article class="flex flex-col lg:flex-row">
                 {{-- Kolom Kiri: Gambar Event --}}
-                <div class="lg:w-2/5 xl:w-1/3 bg-gray-200 dark:bg-slate-700">
-                    <img id="modalDetailEventImage" src="{{ asset('images/default_event_image.png') }}" alt="Poster Event" class="w-full h-64 lg:h-full object-cover">
+                <div class="lg:w-2/5 xl:w-1/3 bg-gray-100 dark:bg-slate-700">
+                    <img id="modalDetailEventImage" src="{{ asset('images/default_event_image.png') }}" alt="Poster Event" class="w-full h-64 lg:h-auto lg:aspect-[3/4] object-cover">
                 </div>
 
-                {{-- Kolom Kanan: Informasi Event (bagian ini bisa scroll jika konten panjang) --}}
-                <div class="lg:w-3/5 xl:w-2/3 p-6 sm:p-8 md:p-10 flex flex-col overflow-y-auto">
-                    <div>
-                        <span id="modalDetailEventCategory" class="bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 text-xs font-semibold px-3 py-1 rounded-full mb-3 inline-block">Kategori</span>
-                        <h1 id="modalDetailEventTitle" class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-3 leading-tight">Nama Event</h1>
-                        <div class="flex items-center text-gray-600 dark:text-gray-400 text-sm mb-5">
-                            <i class="fas fa-calendar-alt mr-2 text-blue-500 dark:text-blue-400"></i>
-                            <span id="modalDetailEventDateSimple">Tanggal</span>
-                        </div>
-                        <p id="modalDetailEventTagline" class="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed text-md">Tagline event.</p>
+                {{-- Kolom Kanan: Informasi Event --}}
+                <div class="lg:w-3/5 xl:w-2/3 p-6 sm:p-8">
+                    <span id="modalDetailEventCategory" class="bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 text-xs font-semibold px-3 py-1 rounded-full mb-3 inline-block">Kategori</span>
+                    {{-- Judul utama sudah di header modal, ini bisa jadi sub-judul atau dihilangkan --}}
+                    {{-- <h1 id="modalDetailEventTitle" class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-3 leading-tight">Nama Event</h1> --}}
+                    <div class="flex items-center text-gray-600 dark:text-gray-400 text-sm mb-5">
+                        <i class="fas fa-calendar-alt mr-2 text-blue-500 dark:text-blue-400"></i>
+                        <span id="modalDetailEventDateSimple">Tanggal</span>
                     </div>
+                    <p id="modalDetailEventTagline" class="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed text-md">Tagline event.</p>
 
-                    <div class="mt-auto space-y-4 sm:space-y-0 sm:flex sm:items-center sm:gap-4 mb-8">
-                        <button type="button" id="modalDetailRegisterButton" class="register-event-trigger w-full sm:w-auto flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-150 ease-in-out text-base shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
-                                data-event-name="" data-event-id="">
-                            <i class="fas fa-edit mr-2"></i> Daftar Event Ini
-                        </button>
-                    </div>
-
-                    <div class="space-y-3 text-sm border-t border-gray-200 dark:border-slate-700 pt-6">
+                    <div class="space-y-3 text-sm mb-8">
                         <div class="flex">
                             <strong class="font-semibold text-gray-800 dark:text-gray-200 w-32 shrink-0">Jadwal Lengkap:</strong>
                             <span id="modalDetailEventScheduleFull" class="text-gray-600 dark:text-gray-400">Jadwal</span>
@@ -224,81 +246,117 @@
                             <span id="modalDetailEventOrganizer" class="text-gray-600 dark:text-gray-400">Penyelenggara</span>
                         </div>
                     </div>
+                     {{-- Deskripsi Lengkap di dalam modal --}}
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Deskripsi Lengkap</h3>
+                         <div id="modalDetailEventDescription" class="prose prose-sm sm:prose-base dark:prose-invert max-w-none text-gray-600 dark:text-gray-300 leading-relaxed">
+                            <p>Deskripsi detail event akan muncul di sini.</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            {{-- Bagian Tab untuk Deskripsi Tambahan di dalam Modal (bisa dibuat lebih simpel atau dihilangkan jika terlalu kompleks untuk modal) --}}
-            <div class="border-t border-gray-200 dark:border-slate-700 px-6 sm:px-8 md:px-10 py-6">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Deskripsi Lengkap</h3>
-                 <div id="modalDetailEventDescription" class="prose prose-sm sm:prose-base dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed">
-                    <p>Deskripsi detail event akan muncul di sini.</p>
-                </div>
-            </div>
-        </article>
+            </article>
+        </div>
+         {{-- Footer Modal dengan Tombol Aksi --}}
+        <div class="p-6 sm:p-8 border-t border-gray-200 dark:border-slate-700 flex flex-col sm:flex-row justify-end items-center gap-3">
+             <button type="button" id="modalDetailRegisterButton" class="register-event-trigger w-full sm:w-auto flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-6 rounded-lg transition duration-150 ease-in-out text-sm shadow-md hover:shadow-lg"
+                    data-event-name="" data-event-id="">
+                <i class="fas fa-edit mr-2"></i> Daftar Event Ini
+            </button>
+            <button type="button" onclick="alert('Fitur Tambah ke Kalender segera hadir!');" class="w-full sm:w-auto flex items-center justify-center bg-gray-200 hover:bg-gray-300 dark:bg-slate-600 dark:hover:bg-slate-500 text-gray-800 dark:text-white font-semibold py-2.5 px-6 rounded-lg transition duration-150 ease-in-out text-sm">
+                <i class="fas fa-calendar-plus mr-2"></i>Tambahkan ke Kalender
+            </button>
+        </div>
     </div>
 </div>
-
 
 @endsection
 
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // --- Navbar Scroll & Transparansi (sama seperti sebelumnya) ---
+    // --- Navbar Scroll & Transparansi ---
     const berandaNavbar = document.querySelector('header > nav.navbar.bg-transparent');
     const mainHeroSection = document.querySelector('.main');
-    function handleBerandaScroll() { /* ... (logika scroll navbar Beranda) ... */ }
+    function handleBerandaScroll() {
+        if (!berandaNavbar || !mainHeroSection) return;
+        const isScrolledDown = window.scrollY > 1000;
+        const elementsToChange = berandaNavbar.querySelectorAll('.text-on-transparent, .icon-on-transparent');
+        const registerButtonHeroNav = berandaNavbar.querySelector('a[href*="register"].bg-white'); // Tombol "Register" di navbar saat transparan
+
+        if (isScrolledDown) {
+            berandaNavbar.classList.remove('bg-transparent', 'border-transparent');
+            berandaNavbar.classList.add('bg-white', 'dark:bg-slate-800', 'shadow-lg');
+            elementsToChange.forEach(el => {
+                el.classList.remove('text-on-transparent', 'icon-on-transparent', 'hover-on-transparent');
+                if (el.closest('ul')) {
+                    el.classList.add('text-gray-900', 'dark:text-white', 'md:hover:text-blue-700', 'dark:md:hover:text-blue-500');
+                } else if (el.tagName === 'SPAN' && el.classList.contains('self-center')) {
+                    el.classList.add('text-gray-900', 'dark:text-white');
+                } else if (el.tagName === 'I') {
+                     el.classList.add('text-gray-700', 'dark:text-gray-300');
+                } else { // Tautan login di navbar transparan
+                    el.classList.add('text-gray-700', 'dark:text-gray-300', 'hover:text-blue-600', 'dark:hover:text-blue-400');
+                }
+            });
+            if(registerButtonHeroNav){
+                registerButtonHeroNav.classList.remove('bg-white','text-sky-700','hover:bg-gray-100', 'shadow');
+                registerButtonHeroNav.classList.add('bg-blue-600','text-white','hover:bg-blue-700');
+            }
+
+        } else { // Kembali ke transparan
+            berandaNavbar.classList.add('bg-transparent', 'border-transparent');
+            berandaNavbar.classList.remove('bg-white', 'dark:bg-slate-800', 'shadow-lg');
+            elementsToChange.forEach(el => {
+                el.classList.remove('text-gray-900', 'dark:text-white', 'md:hover:text-blue-700', 'dark:md:hover:text-blue-500', 'text-gray-700', 'dark:text-gray-300', 'hover:text-blue-600', 'dark:hover:text-blue-400');
+                el.classList.add('text-on-transparent');
+                if(el.closest('ul')) el.classList.add('hover-on-transparent');
+                if(el.tagName === 'I') el.classList.add('icon-on-transparent');
+            });
+            if(registerButtonHeroNav){
+                registerButtonHeroNav.classList.remove('bg-blue-600','text-white','hover:bg-blue-700');
+                registerButtonHeroNav.classList.add('bg-white','text-sky-700','hover:bg-gray-100', 'shadow');
+            }
+        }
+    }
     if (mainHeroSection && berandaNavbar) {
         window.addEventListener('scroll', handleBerandaScroll);
-        handleBerandaScroll();
+        handleBerandaScroll(); // Panggil sekali saat load untuk set state awal
     }
-    window.scrollToElement = function(elementId) { /* ... (fungsi scroll) ... */ }
 
-    // --- DATA EVENT STATIS (untuk demo modal detail di Beranda) ---
+    window.scrollToElement = function(elementId) {
+        document.getElementById(elementId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // --- DATA EVENT STATIS ---
     const staticEventsData = {
         'pdh-day': {
-            title: 'PDH DAY',
-            imageUrl: "{{ asset('pdhday.jpg') }}",
-            category: 'Kegiatan Kampus',
-            dateSimple: 'Setiap Senin',
+            title: 'PDH DAY', imageUrl: "{{ asset('pdhday.jpg') }}", category: 'Kegiatan Kampus', dateSimple: 'Setiap Senin',
             tagline: 'Kenakan PDH-mu dengan bangga, melangkah bersama menuju masa depan!',
-            scheduleFull: 'Setiap Hari Senin, Jam Kampus Berlaku',
-            location: 'Lingkungan Kampus Festivalan',
-            organizer: 'Departemen Kesejahteraan Mahasiswa',
-            description: "<p>PDH DAY adalah inisiatif mingguan yang bertujuan untuk memperkuat identitas dan kebersamaan mahasiswa Festivalan. Setiap hari Senin, seluruh mahasiswa diajak untuk mengenakan Pakaian Dinas Harian (PDH) kampus dengan penuh kebanggaan.</p><p>Kegiatan ini bukan hanya tentang seragam, tetapi juga tentang membangun semangat solidaritas, disiplin, dan rasa memiliki terhadap almamater. Jadikan setiap langkahmu di hari Senin sebagai bagian dari perjalanan besar kita untuk melesat lebih tinggi, melampaui batas, dan terus maju bersama! 🙌</p>",
-            idSlug: 'pdh-day'
+            scheduleFull: 'Setiap Hari Senin, Jam Kampus Berlaku', location: 'Lingkungan Kampus Festivalan', organizer: 'Departemen Kesejahteraan Mahasiswa',
+            description: "<p>PDH DAY adalah inisiatif mingguan yang bertujuan untuk memperkuat identitas dan kebersamaan mahasiswa Festivalan...</p>", idSlug: 'pdh-day'
         },
         'buka-puasa': {
-            title: 'Buka Puasa Bersama',
-            imageUrl: "{{ asset('bukber.jpg') }}",
-            category: 'Acara Sosial & Keagamaan',
-            dateSimple: '25 Maret 2025',
+            title: 'Buka Puasa Bersama', imageUrl: "{{ asset('bukber.jpg') }}", category: 'Acara Sosial & Keagamaan', dateSimple: '25 Maret 2025',
             tagline: 'Eratkan silaturahmi di bulan suci dengan berbuka puasa bersama.',
-            scheduleFull: 'Selasa, 25 Maret 2025, Pukul 17.00 WIB - Selesai',
-            location: 'Aula Utama Kampus Festivalan',
-            organizer: 'Unit Kegiatan Mahasiswa Kerohanian Islam',
-            description: "<p>Dalam rangka menyambut bulan suci Ramadhan dan mempererat tali silaturahmi, kami mengundang seluruh civitas akademika Kampus Festivalan untuk hadir dalam acara Buka Puasa Bersama.</p><p>Mari kita jadikan momen berharga ini untuk meningkatkan keimanan, berbagi kebahagiaan, dan menebar kebaikan. Acara akan diisi dengan tausiyah, doa bersama, dan tentunya hidangan berbuka puasa. Sampai jumpa di sana! ✨🤗</p>",
-            idSlug: 'buka-puasa'
+            scheduleFull: 'Selasa, 25 Maret 2025, Pukul 17.00 WIB - Selesai', location: 'Aula Utama Kampus Festivalan', organizer: 'UKM Kerohanian Islam',
+            description: "<p>Dalam rangka menyambut bulan suci Ramadhan dan mempererat tali silaturahmi...</p>", idSlug: 'buka-puasa'
         },
         'peer-teaching': {
-            title: 'Peer Teaching : Belajar Bareng',
-            imageUrl: "{{ asset('peerteaching.jpg') }}",
-            category: 'Akademik & Workshop',
-            dateSimple: '07-14 Maret 2025',
+            title: 'Peer Teaching : Belajar Bareng', imageUrl: "{{ asset('peerteaching.jpg') }}", category: 'Akademik & Workshop', dateSimple: '07-14 Maret 2025',
             tagline: 'Belajar seru bareng tutor sebaya untuk berbagai mata kuliah.',
-            scheduleFull: '07 - 14 Maret 2025 (Jadwal detail per mata kuliah akan diumumkan)',
-            location: 'Ruang Diskusi & Kelas Fleksibel Kampus Festivalan',
-            organizer: 'Himpunan Mahasiswa Jurusan & BEM Fakultas',
-            description: "<p>Kesulitan memahami mata kuliah tertentu? Program Peer Teaching hadir sebagai solusi! Di sini, kamu bisa belajar dari tutor sebaya yang ahli di bidangnya dalam suasana yang santai dan interaktif.</p><p>Ayo segera ajukan pertanyaan atau diskusikan mata kuliah yang ingin dibahas dengan tutor melalui link berikut: <a href='https://forms.gle/HqUGuwwNPpHjS7N66' target='_blank' class='text-blue-600 hover:underline'>Link Diskusi Google Forms</a>.</p><p>Jangan lewatkan kesempatan belajar produktif dan menyenangkan ini, girls! Tingkatkan pemahamanmu dan raih prestasi akademik terbaik.</p>",
-            idSlug: 'peer-teaching'
+            scheduleFull: '07 - 14 Maret 2025 (Jadwal detail akan diumumkan)', location: 'Ruang Diskusi Kampus', organizer: 'Himpunan Mahasiswa & BEM',
+            description: "<p>Kesulitan memahami mata kuliah tertentu? Program Peer Teaching hadir sebagai solusi!...</p>", idSlug: 'peer-teaching'
         }
     };
 
-    // --- Logika untuk Modal Detail Event (BARU) ---
+    // --- Logika untuk Modal Detail Event ---
     const eventDetailModal = document.getElementById('eventDetailModal');
     const closeEventDetailModalTopBtn = document.getElementById('closeEventDetailModalTop');
+    // Elemen di dalam modal detail yang akan diisi
     const modalDetailEventImage = document.getElementById('modalDetailEventImage');
     const modalDetailEventCategory = document.getElementById('modalDetailEventCategory');
-    const modalDetailEventTitle = document.getElementById('modalDetailEventTitle');
+    const modalDetailEventTitleHeader = document.getElementById('modalDetailEventTitleHeader'); // Judul di header modal
+    // const modalDetailEventTitle = document.getElementById('modalDetailEventTitle'); // Judul di konten (opsional jika sudah di header)
     const modalDetailEventDateSimple = document.getElementById('modalDetailEventDateSimple');
     const modalDetailEventTagline = document.getElementById('modalDetailEventTagline');
     const modalDetailRegisterButton = document.getElementById('modalDetailRegisterButton');
@@ -309,12 +367,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function openEventDetailModal(eventId) {
         const eventData = staticEventsData[eventId];
-        if (!eventData || !eventDetailModal) return;
+        if (!eventData || !eventDetailModal) {
+            console.error("Data event atau elemen modal tidak ditemukan untuk ID:", eventId);
+            return;
+        }
 
         modalDetailEventImage.src = eventData.imageUrl || "{{ asset('images/default_event_image.png') }}";
         modalDetailEventImage.alt = "Poster " + eventData.title;
         modalDetailEventCategory.textContent = eventData.category;
-        modalDetailEventTitle.textContent = eventData.title;
+        modalDetailEventTitleHeader.textContent = eventData.title; // Set judul di header modal
+        // if(modalDetailEventTitle) modalDetailEventTitle.textContent = eventData.title; // Set judul di konten jika ada
         modalDetailEventDateSimple.textContent = eventData.dateSimple;
         modalDetailEventTagline.textContent = eventData.tagline;
         
@@ -324,11 +386,11 @@ document.addEventListener('DOMContentLoaded', function () {
         modalDetailEventScheduleFull.textContent = eventData.scheduleFull;
         modalDetailEventLocation.textContent = eventData.location;
         modalDetailEventOrganizer.textContent = eventData.organizer;
-        modalDetailEventDescription.innerHTML = eventData.description; // Gunakan innerHTML karena deskripsi mungkin mengandung HTML
+        modalDetailEventDescription.innerHTML = eventData.description;
 
         eventDetailModal.classList.remove('hidden');
         eventDetailModal.classList.add('flex');
-        document.body.classList.add('overflow-hidden');
+        document.body.classList.add('overflow-hidden'); // Mencegah scroll background
     }
 
     function closeEventDetailModal() {
@@ -344,27 +406,27 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     if (eventDetailModal) {
         eventDetailModal.addEventListener('click', function(event) {
-            if (event.target === eventDetailModal) { // Hanya tutup jika klik backdrop
+            if (event.target === eventDetailModal) {
                 closeEventDetailModal();
             }
         });
     }
-    // Tombol "Daftar Event Ini" di dalam modal detail akan memicu modal registrasi
     if(modalDetailRegisterButton) {
         modalDetailRegisterButton.addEventListener('click', function() {
             const eventName = this.dataset.eventName;
             const eventId = this.dataset.eventId;
-            closeEventDetailModal(); // Tutup modal detail dulu
-            // Sedikit delay agar transisi modal lebih mulus (opsional)
-            setTimeout(() => {
+            closeEventDetailModal(); 
+            setTimeout(() => { // Beri sedikit waktu agar modal detail tertutup sempurna
                 if (typeof window.openEventRegistrationModal === 'function') {
                     window.openEventRegistrationModal(eventName, eventId);
+                } else {
+                     console.error('Fungsi openEventRegistrationModal tidak ditemukan.');
                 }
-            }, 100);
+            }, 150); // 150ms delay
         });
     }
 
-    // Event Listener untuk tombol "Detail" pada kartu event di Beranda
+    // Event Listener untuk tombol "Detail" pada kartu event
     const berandaDetailTriggers = document.querySelectorAll('.open-event-detail-modal-trigger');
     berandaDetailTriggers.forEach(button => {
         button.addEventListener('click', function() {
@@ -373,8 +435,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // --- Event Listener untuk Tombol Pemicu Modal Registrasi Event (yang umum) ---
-    const berandaRegisterTriggers = document.querySelectorAll('.register-event-trigger');
+    // Event Listener untuk tombol pemicu modal registrasi event (yang umum)
+    const berandaRegisterTriggers = document.querySelectorAll('.register-event-trigger:not(#modalDetailRegisterButton)'); // Kecualikan tombol di modal detail
     berandaRegisterTriggers.forEach(button => {
         button.addEventListener('click', function() {
             const eventName = this.dataset.eventName;
@@ -385,13 +447,11 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
     
-    // --- Hamburger Menu untuk Navbar Beranda (penyesuaian dari kode layout) ---
+    // Hamburger Menu untuk Navbar Beranda
     const berandaHamburger = document.querySelector('#hamburger-menu[data-collapse-toggle="navbar-user-beranda"]');
     const berandaNavUser = document.getElementById('navbar-user-beranda');
     if (berandaHamburger && berandaNavUser) {
         berandaHamburger.addEventListener('click', function() {
-            const isExpanded = this.getAttribute('aria-expanded') === 'true' || false;
-            this.setAttribute('aria-expanded', !isExpanded);
             berandaNavUser.classList.toggle('hidden');
         });
     }

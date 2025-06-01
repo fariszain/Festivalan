@@ -1,229 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Double Slider Login / Registration Form</title>
-  <link rel="stylesheet" href="https://cdn.lineicons.com/4.0/lineicons.css">
-  <style>
-    @import url("https://fonts.googleapis.com/css2?family=Poppins");
+@extends('layouts.layout')
 
-    * {
-      box-sizing: border-box;
-    }
+@section('title', 'Login / Register - Festivalan')
 
-    body {
-      display: flex;
-      background-color: #f6f5f7;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      font-family: "Poppins", sans-serif;
-      overflow: hidden;
-      height: 100vh;
-    }
+@pushOnce('styles')
+<style>
+    /* Custom CSS untuk animasi sliding panel dan beberapa style dasar */
+    /* Font Poppins bisa diimpor jika diinginkan, atau biarkan menggunakan font-sans dari Tailwind */
+    /* @import url("https://fonts.googleapis.com/css2?family=Poppins"); */
 
-    h1 {
-      font-weight: 700;
-      letter-spacing: -1.5px;
-      margin: 0;
-      margin-bottom: 15px;
-    }
-
-    h1.title {
-        font-size: 45px;
-        line-height: 45px;
-        margin: 0;
-        text-shadow: 0 0 10px rgba(16, 64, 74, 0.5);
-    }
-
-    p {
-        font-size: 14px;
-        font-weight: 100;
-        line-height: 20px;
-        letter-spacing: 0.5px;
-        margin: 20px 0 30px;
-        text-shadow: 0 0 10px rgba(16, 64, 74, 0.5);
-    }
-
-    span {
-        font-size: 14px;
-        margin-top: 25px;
-    }
-
-    a {
-        color: #333;
-        font-size: 14px;
-        text-decoration: none;
-        margin: 15px 0;
-        transition: 0.3s ease-in-out;
-    }
-
-    a:hover {
-        color: #4bb6b7;
-    }
-
-    .content {
+    .auth-body-container {
         display: flex;
-        width: 100%;
-        height: 50px;
-        align-items: center;
-        justify-content: space-around;
-    }
-
-    .content .checkbox {
-        display: flex;
-        align-items: center;
+        /* background-color: #f6f5f7; Akan ditimpa oleh dark mode jika aktif */
         justify-content: center;
-    }
-
-    .content input {
-        accent-color: #333;
-        width: 12px;
-        height: 12px;
-    }
-
-    .content label {
-        font-size: 14px;
-        user-select: none;
-        padding-left: 5px;
-    }
-
-    button {
-        position: relative;
-        border-radius: 20px;
-        border: 1px solid #4bb6b7;
-        background-color: #4bb6b7;
-        color: #fff;
-        font-size: 15px;
-        font-weight: 700;
-        margin: 10px;
-        padding: 12px 80px;
-        letter-spacing: 1px;
-        text-transform: capitalize;
-        transition: 0.3s ease-in-out;
-    }
-
-    button:hover {
-        letter-spacing: 3px;
-    }
-
-    button:active {
-        transform: scale(0.95);
-    }
-
-    button:focus {
-        outline: none;
-    }
-
-    button.ghost {
-        background-color: rgba(225, 225, 225, 0.2);
-        border: 2px solid #fff;
-        color: #fff;
-    }
-
-    button.ghost i {
-        position: absolute;
-        opacity: 0;
-        transition: 0.3s ease-in-out;
-    }
-
-    button.ghost i.register {
-        right: 70px;
-    }
-
-    button.ghost i.login {
-        left: 70px;
-    }
-
-    button.ghost:hover i.register {
-        right: 40px;
-        opacity: 1;
-    }
-
-    button.ghost:hover i.login {
-        left: 40px;
-        opacity: 1;
-    }
-
-    form {
-        background-color: #fff;
-        display: flex;
         align-items: center;
-        justify-content: center;
         flex-direction: column;
-        padding: 0 50px;
-        height: 100%;
-        text-align: center;
+        font-family: 'Poppins', sans-serif; /* Anda bisa ganti dengan var(--font-sans) jika didefinisikan di Tailwind */
+        min-height: calc(100vh - 128px); /* Contoh: 100vh - (tinggi header + tinggi footer) */
+        padding-top: 1rem; /* Jarak dari navbar */
+        padding-bottom: 1rem; /* Jarak ke footer */
     }
 
-    input {
-        background-color: #eee;
-        border-radius: 10px;
-        border: none;
-        padding: 12px 15px;
-        margin: 8px 0;
-        width: 100%;
-    }
-
-    .container {
-        background-color: #fff;
+    .auth-container {
         border-radius: 25px;
-        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
         position: relative;
         overflow: hidden;
         width: 768px;
         max-width: 100%;
-        min-height: 500px;
+        min-height: 540px; /* Tinggi minimal disesuaikan sedikit untuk konten */
     }
 
-    .form-container {
+    .form-auth-container {
         position: absolute;
         top: 0;
         height: 100%;
         transition: all 0.6s ease-in-out;
     }
 
-    .login-container {
+    .login-auth-container {
         left: 0;
         width: 50%;
         z-index: 2;
     }
-
-    .container.right-panel-active .login-container {
+    .auth-container.right-panel-active .login-auth-container {
         transform: translateX(100%);
     }
 
-    .register-container {
+    .register-auth-container {
         left: 0;
         width: 50%;
         opacity: 0;
         z-index: 1;
     }
-
-    .container.right-panel-active .register-container {
+    .auth-container.right-panel-active .register-auth-container {
         transform: translateX(100%);
         opacity: 1;
         z-index: 5;
-        animation: show 0.6s;
+        animation: showAuthPanel 0.6s;
     }
 
-    @keyframes show {
-        0%, 
-        49.99% {
-            opacity: 0; 
-            z-index: 1; 
-        }
-
-        50%,
-        100% {
-            opacity: 1;
-            z-index: 5;
-        }
+    @keyframes showAuthPanel {
+        0%, 49.99% { opacity: 0; z-index: 1; }
+        50%, 100% { opacity: 1; z-index: 5; }
     }
 
-    .overlay-container {
+    .overlay-auth-container {
         position: absolute;
         top: 0;
         left: 50%;
@@ -233,17 +73,17 @@
         transition: transform 0.6s ease-in-out;
         z-index: 100;
     }
-
-    .container.right-panel-active .overlay-container {
+    .auth-container.right-panel-active .overlay-auth-container {
         transform: translateX(-100%);
     }
 
-    .overlay {
+    .auth-overlay {
+        /* Menggunakan GIF sebagai background */
         background-image: url('Lilo\ And\ Stitch\ Leaf\ GIF\ -\ Lilo\ And\ Stitch\ Leaf\ Sad\ -\ Discover\ &\ Share\ GIFs.gif');
         background-repeat: no-repeat;
         background-size: cover;
-        background-position: 0 0;
-        color: #fff;
+        background-position: center center; /* Pusatkan GIF */
+        color: #fff; /* Teks default putih di overlay */
         position: relative;
         left: -100%;
         height: 100%;
@@ -251,26 +91,26 @@
         transform: translateX(0);
         transition: transform 0.6s ease-in-out;
     }
-
-    .overlay:before {
+    /* Gradien gelap di atas GIF untuk kontras teks */
+    .auth-overlay:before {
         content: "";
         position: absolute;
         left: 0;
         right: 0;
         top: 0;
         bottom: 0;
+        /* Gradien disesuaikan dengan tema Festivalan (biru tua) */
         background: linear-gradient(
             to top,
-            rgba(46, 94, 100, 0.4) 40%,
-            rgba(46, 94, 100, 0)
+            rgba(12, 74, 110, 0.6) 40%, /* Warna sky-900 dengan opacity */
+            rgba(30, 58, 138, 0.1) /* Warna blue-800 dengan opacity tipis di atas */
         );
     }
-
-    .container.right-panel-active .overlay {
+    .auth-container.right-panel-active .auth-overlay {
         transform: translateX(50%);
     }
 
-    .overlay-panel {
+    .auth-overlay-panel {
         position: absolute;
         display: flex;
         align-items: center;
@@ -284,124 +124,120 @@
         transform: translateX(0);
         transition: transform 0.6s ease-in-out;
     }
+    .auth-overlay-left { transform: translateX(-20%); }
+    .auth-container.right-panel-active .auth-overlay-left { transform: translateX(0); }
+    .auth-overlay-right { right: 0; transform: translateX(0); }
+    .auth-container.right-panel-active .auth-overlay-right { transform: translateX(20%); }
 
-    .overlay-left {
-        transform: translateX(-20%);
+    .auth-button.ghost {
+        background-color: rgba(255, 255, 255, 0.25);
+        border: 1px solid #fff; /* Border putih lebih tipis */
+        color: #fff;
     }
+    .auth-button.ghost:hover {
+        background-color: rgba(255, 255, 255, 0.35);
+    }
+</style>
+@endPushOnce
 
-    .container.right-panel-active .overlay-left {
-        transform: translateX(0);
-    }
+@section('content')
+<div class="auth-body-container bg-gray-100 dark:bg-slate-900">
+    <div class="auth-container bg-white dark:bg-slate-800 shadow-2xl rounded-2xl" id="authContainer">
+        
+        {{-- FORM REGISTER --}}
+        <div class="form-auth-container register-auth-container">
+            <form action="#" method="POST" class="auth-form bg-white dark:bg-slate-800 p-8 sm:p-12 h-full flex flex-col justify-center items-center" onsubmit="alert('Simulasi Register!'); return false;">
+                {{-- @csrf --}}
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Buat Akun</h1>
+                {{-- <div class="my-3 flex space-x-3"> --}}
+                    {{-- Ikon sosial media dihilangkan --}}
+                {{-- </div> --}}
+                <input type="text" name="name" placeholder="Nama Lengkap" required 
+                       class="auth-input bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 text-gray-900 dark:text-white text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block w-full p-3 my-2"/>
+                <input type="email" name="email" placeholder="Email" required 
+                       class="auth-input bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 text-gray-900 dark:text-white text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block w-full p-3 my-2"/>
+                <input type="password" name="password" placeholder="Password" required 
+                       class="auth-input bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 text-gray-900 dark:text-white text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block w-full p-3 my-2"/>
+                <button type="submit" class="auth-button bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white py-3 px-12 rounded-full uppercase tracking-wider text-sm mt-6">Register</button>
+            </form>
+        </div>
 
-    .overlay-right {
-        right: 0;
-        transform: translateX(0);
-    }
+        {{-- FORM LOGIN --}}
+        <div class="form-auth-container login-auth-container">
+            <form action="#" method="POST" class="auth-form bg-white dark:bg-slate-800 p-8 sm:p-12 h-full flex flex-col justify-center items-center" onsubmit="alert('Simulasi Login!'); return false;">
+                {{-- @csrf --}}
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Login</h1>
+                {{-- <div class="my-3 flex space-x-3"> --}}
+                    {{-- Ikon sosial media dihilangkan --}}
+                {{-- </div> --}}
+                <input type="email" name="email" placeholder="Email" required 
+                       class="auth-input bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 text-gray-900 dark:text-white text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block w-full p-3 my-2"/>
+                <input type="password" name="password" placeholder="Password" required 
+                       class="auth-input bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 text-gray-900 dark:text-white text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block w-full p-3 my-2"/>
+                <div class="flex justify-between items-center w-full my-4 px-1">
+                    <div class="flex items-center">
+                        <input id="remember_me" type="checkbox" name="remember" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-slate-800 focus:ring-2 dark:bg-slate-700 dark:border-slate-600">
+                        <label for="remember_me" class="ml-2 text-xs text-gray-600 dark:text-gray-400">Ingat Saya</label>
+                    </div>
+                    <a href="#" class="text-xs text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">Lupa Password?</a>
+                </div>
+                <button type="submit" class="auth-button bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white py-3 px-12 rounded-full uppercase tracking-wider text-sm mt-4">Login</button>
+            </form>
+        </div>
 
-    .container.right-panel-active .overlay-right {
-        transform: translateX(20%);
-    }
-
-    .social-container {
-        margin: 20px 0;
-    }
-
-    .social-container a {
-        border: 1px solid #dddddd;
-        border-radius: 50%;
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        margin: 0 5px;
-        height: 40px;
-        width: 40px;
-        transition: 0.3s ease-in-out;
-    }
-
-    .social-container a:hover {
-        border: 1px solid #4bb6b7;
-    }
-  </style>
-</head>
-<body>
-  <div class="container" id="container">
-    
-    <!-- Register Form -->
-    <div class="form-container register-container">
-      <form id="registerForm">
-        <h1>Register here.</h1>
-        <input type="text" id="regFullname" name="regFullname" placeholder="Full Name" required />
-        <input type="email" id="regEmail" name="regEmail" placeholder="Email" required />
-        <input type="password" id="regPassword" name="regPassword" placeholder="Password" required />
-        <button type="submit" id="btn-regis">Register</button>
-        <span class="message"></span>
-        <div class="social-container">
-          <a href="#" class="social"><i class="lni lni-facebook-fill"></i></a>
-          <a href="#" class="social"><i class="lni lni-google"></i></a>
-          <a href="#" class="social"><i class="lni lni-linkedin-original"></i></a>
-        </div>        
-      </form>
+        {{-- OVERLAY --}}
+        <div class="overlay-auth-container">
+            <div class="auth-overlay"> {{-- Kelas gradient Tailwind dihapus dari sini, dihandle oleh CSS --}}
+                <div class="auth-overlay-panel auth-overlay-left p-8">
+                    <h1 class="text-4xl font-bold text-white mb-4 leading-tight">Selamat Datang Kembali!</h1>
+                    <p class="text-sm text-gray-100 mb-6 leading-relaxed px-4">Untuk tetap terhubung dengan semua event seru di Festivalan, silakan login dengan akun Anda.</p>
+                    <button class="auth-button ghost py-3 px-10 rounded-full uppercase tracking-wider text-sm" id="authLoginButton">Login</button>
+                </div>
+                <div class="auth-overlay-panel auth-overlay-right p-8">
+                    <h1 class="text-4xl font-bold text-white mb-4 leading-tight">Halo, Calon Festivarian!</h1>
+                    <p class="text-sm text-gray-100 mb-6 leading-relaxed px-4">Belum punya akun? Daftarkan diri Anda dan mulailah petualangan event Anda bersama kami!</p>
+                    <button class="auth-button ghost py-3 px-10 rounded-full uppercase tracking-wider text-sm" id="authRegisterButton">Register</button>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 
-    <!-- Login Form -->
-    <div class="form-container login-container">
-      <form id="loginForm">
-        <h1>Login here.</h1>
-        <input type="email" id="email" name="email" placeholder="Email" required />
-        <input type="password" id="password" name="password" placeholder="Password" required />
-        <div class="content">
-          <div class="checkbox">
-            <input type="checkbox" name="checkbox" id="checkbox" />
-            <label>Remember me</label>
-          </div>
-          <div class="pass-link">
-            <a href="#">Forgot password?</a>
-          </div>
-        </div>
-        <button type="submit" id="button-login">Login</button>
-        <span class="message"></span>
-        <div class="social-container">
-          <a href="#" class="social"><i class="lni lni-facebook-fill"></i></a>
-          <a href="#" class="social"><i class="lni lni-google"></i></a>
-          <a href="#" class="social"><i class="lni lni-linkedin-original"></i></a>
-        </div>
-      </form>
-    </div>
+{{-- Style untuk social icon yang sudah tidak terpakai bisa dihapus jika mau, tapi saya biarkan jika Anda berubah pikiran --}}
+<style>
+    .social-icon { /* Tidak terpakai lagi, tapi tidak dihapus jika Anda ingin menggunakannya kembali */
+        @apply border border-gray-300 dark:border-slate-600 rounded-full inline-flex justify-center items-center h-10 w-10 text-gray-600 dark:text-gray-300 hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-500 dark:hover:text-blue-400 transition-all duration-300;
+    }
+    .auth-button { /* Base style untuk tombol utama dan ghost */
+        @apply font-semibold transition-transform duration-75 active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-slate-800;
+    }
+    .auth-button:not(.ghost) { /* Styling spesifik untuk tombol non-ghost */
+        @apply focus:ring-blue-500;
+    }
+    .auth-button.ghost {
+        @apply focus:ring-white/70;
+    }
 
-    <!-- Overlay Panel -->
-    <div class="overlay-container">
-      <div class="overlay">
-        <div class="overlay-panel overlay-left">
-          <h1 class="title">Hello <br> friends</h1>
-          <p>If you have an account, login here and have fun</p>
-          <button class="ghost" id="login">Login
-            <i class="lni lni-arrow-left login"></i>
-          </button>
-        </div>
-        <div class="overlay-panel overlay-right">
-          <h1 class="title">Start your <br> journey now</h1>
-          <p>If you don't have an account yet, join us and start your journey.</p>
-          <button class="ghost" id="register">Register
-            <i class="lni lni-arrow-right register"></i>
-          </button>
-        </div>
-      </div>
-    </div>
+</style>
+@endsection
 
-  </div>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script>
-    const registerButton = document.getElementById("register");
-    const loginButton = document.getElementById("login");
-    const container = document.getElementById("container");
 
-    registerButton.addEventListener("click", () => {
-      container.classList.add("right-panel-active");
-    });
+@push('scripts')
+<script>
+    const authRegisterButton = document.getElementById('authRegisterButton');
+    const authLoginButton = document.getElementById('authLoginButton');
+    const authContainer = document.getElementById('authContainer');
 
-    loginButton.addEventListener("click", () => {
-      container.classList.remove("right-panel-active");
-    });
-  </script>
-</body>
-</html>
+    if (authRegisterButton && authLoginButton && authContainer) {
+        authRegisterButton.addEventListener('click', () => {
+            authContainer.classList.add('right-panel-active');
+        });
+
+        authLoginButton.addEventListener('click', () => {
+            authContainer.classList.remove('right-panel-active');
+        });
+    } else {
+        // console.error('Auth toggle buttons or container not found.'); // Bisa di-uncomment untuk debugging
+    }
+</script>
+@endpush
