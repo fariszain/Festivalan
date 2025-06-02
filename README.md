@@ -1,5 +1,9 @@
 # Festivalan - Platform Manajemen Event Kampus
 
+Anggota Kelompok : 
+Faris Zain As-Shadiq (2308107010039)
+Yafi Hidayatullah (2308107010059)
+
 Festivalan adalah aplikasi web komprehensif yang dirancang untuk memudahkan pengelolaan dan partisipasi dalam berbagai acara di lingkungan kampus. Dibangun dengan framework Laravel, platform ini menyediakan alur kerja yang mulus bagi mahasiswa untuk mengajukan proposal acara, admin untuk meninjau dan menyetujuinya, serta seluruh civitas akademika untuk menemukan dan mendaftar ke acara yang diminati.
 
 * **Autentikasi Pengguna:** Sistem registrasi dan login yang aman untuk mahasiswa dan admin.
