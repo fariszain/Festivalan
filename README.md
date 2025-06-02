@@ -69,9 +69,3 @@ Festivalan adalah aplikasi web komprehensif yang dirancang untuk memudahkan peng
 Aplikasi akan tersedia di `http://localhost:8000`.
 
 ---
-
-**Catatan:**
-* Sesuaikan bagian "Teknologi yang Digunakan" (terutama nama database) dan "Setup & Instalasi" sesuai dengan proyek Anda.
-* Anda bisa menambahkan screenshot UI utama di bagian atas atau dalam deskripsi fitur.
-* Jika ada fitur lain yang menonjol, tambahkan ke daftar "Fitur Utama".
-* Pastikan path gambar `image_9d80c3.png` dan `image_9d80a1.png` benar atau unggah gambar tersebut ke repositori Anda dan sesuaikan pathnya.
