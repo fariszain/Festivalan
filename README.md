@@ -1,66 +1,77 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Festivalan - Platform Manajemen Event Kampus
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Festivalan adalah aplikasi web komprehensif yang dirancang untuk memudahkan pengelolaan dan partisipasi dalam berbagai acara di lingkungan kampus. Dibangun dengan framework Laravel, platform ini menyediakan alur kerja yang mulus bagi mahasiswa untuk mengajukan proposal acara, admin untuk meninjau dan menyetujuinya, serta seluruh civitas akademika untuk menemukan dan mendaftar ke acara yang diminati.
 
-## About Laravel
+* **Autentikasi Pengguna:** Sistem registrasi dan login yang aman untuk mahasiswa dan admin.
+* **Manajemen Peran:**
+    * **Mahasiswa:** Dapat mengajukan proposal event, mendaftar ke event, melihat dan mengubah profil.
+    * **Admin:** Dashboard khusus untuk melihat statistik event, mengelola (menyetujui/menolak) proposal event dari mahasiswa.
+* **Pengajuan Event (oleh Mahasiswa):** Form intuitif untuk mengajukan event baru, lengkap dengan judul, deskripsi, jadwal (mulai & selesai), lokasi, kategori, dan unggah poster. Status awal event adalah "pending approval".
+* **Moderasi Event (oleh Admin):** Admin dapat melihat daftar event yang diajukan, meninjau detailnya, dan kemudian menyetujui atau menolaknya.
+* **Penjelajahan & Pendaftaran Event:**
+    * Halaman Beranda menampilkan event yang telah disetujui dan akan datang.
+    * Pengguna (mahasiswa) dapat mendaftar ke event.
+    * Modal detail event untuk informasi lengkap tanpa meninggalkan halaman utama.
+* **Manajemen Profil:** Pengguna dapat melihat dan memperbarui informasi profil mereka, termasuk nama, username, email, nomor telepon, bio, dan avatar.
+* **Halaman Statis:** Termasuk halaman "Tentang Kami", "Layanan", "Galeri", dan "Kontak".
+* **Desain Responsif:** Antarmuka pengguna yang dibangun dengan Tailwind CSS, memastikan pengalaman yang baik di berbagai perangkat.
+* **Interaktivitas Frontend:** Penggunaan JavaScript untuk fitur seperti modal dinamis, validasi form, dan pendaftaran event via AJAX.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Teknologi yang Digunakan
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+* **Backend:** Laravel (PHP)
+* **Frontend:**
+    * Blade Templating Engine
+    * Tailwind CSS
+    * JavaScript (ES6+)
+    * Font Awesome (untuk ikon)
+* **Database:** (Sebutkan database Anda, misal: MySQL, PostgreSQL) - Terstruktur menggunakan Laravel Migrations & Seeders.
+* **Konsep Utama Laravel yang Diimplementasikan:**
+    * Model-View-Controller (MVC)
+    * Eloquent ORM (untuk interaksi database dan relasi antar model: `User`, `Event`, `event_user` pivot table)
+    * Routing (termasuk Route Model Binding dan Route Groups dengan Prefix & Naming)
+    * Middleware (untuk autentikasi dan otorisasi berbasis peran - `RoleMiddleware`)
+    * Validation (untuk form input)
+    * File Storage (untuk avatar pengguna dan poster event)
+    * Laravel Mix/Vite (jika digunakan, untuk kompilasi aset)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🔩 Arsitektur & Alur Penting
 
-## Learning Laravel
+1.  **Autentikasi & Otorisasi:**
+    * `AuthController` menangani registrasi, login, logout, dan manajemen profil.
+    * `RoleMiddleware` melindungi rute berdasarkan peran pengguna (`mahasiswa` atau `admin`), memastikan hanya pengguna yang berhak yang dapat mengakses fungsionalitas tertentu.
+2.  **Alur Pengajuan & Persetujuan Event:**
+    * Mahasiswa mengisi form di `registerevent.blade.php`, data dikirim ke `EventController@registerEvent`.
+    * Event disimpan dengan status `pending_approval`.
+    * Admin melihat daftar event pending di `admin.event_proposals` (dari `AdminController@listEventProposals`).
+    * Admin dapat menyetujui (`AdminController@approveEvent`) atau menolak (`AdminController@rejectEvent`) event, yang akan mengubah status event di database.
+3.  **Pendaftaran Event oleh Mahasiswa:**
+    * Di halaman Beranda (`Beranda.blade.php`), tombol "Daftar" pada event akan memicu request AJAX ke `EventController@registerUserToEvent`.
+    * Controller memvalidasi dan mencatat pendaftaran di tabel pivot `event_user` menggunakan relasi Eloquent (`attach()`).
+    * Frontend menerima respons JSON dan memberikan feedback kepada pengguna.
+4.  **Relasi Model:**
+    * `User` memiliki relasi `hasMany` ke `Event` (event yang dibuat) dan `belongsToMany` ke `Event` (event yang didaftari).
+    * `Event` memiliki relasi `belongsTo` ke `User` (pembuat event) dan `belongsToMany` ke `User` (peserta yang terdaftar).
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 🛠️ Setup & Instalasi (Contoh)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+1.  Clone repositori: `git clone https://github.com/USERNAME/NAMA_REPO.git`
+2.  Masuk ke direktori proyek: `cd NAMA_REPO`
+3.  Install dependensi PHP: `composer install`
+4.  Salin file `.env.example` menjadi `.env`: `cp .env.example .env`
+5.  Generate application key: `php artisan key:generate`
+6.  Konfigurasi koneksi database Anda di file `.env`.
+7.  Jalankan migrasi database: `php artisan migrate`
+8.  (Opsional) Jalankan seeder untuk data awal: `php artisan db:seed`
+9.  Buat symbolic link untuk storage: `php artisan storage:link`
+10. Jalankan server development: `php artisan serve`
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Aplikasi akan tersedia di `http://localhost:8000`.
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**Catatan:**
+* Sesuaikan bagian "Teknologi yang Digunakan" (terutama nama database) dan "Setup & Instalasi" sesuai dengan proyek Anda.
+* Anda bisa menambahkan screenshot UI utama di bagian atas atau dalam deskripsi fitur.
+* Jika ada fitur lain yang menonjol, tambahkan ke daftar "Fitur Utama".
+* Pastikan path gambar `image_9d80c3.png` dan `image_9d80a1.png` benar atau unggah gambar tersebut ke repositori Anda dan sesuaikan pathnya.
